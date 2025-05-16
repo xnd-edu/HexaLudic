@@ -17,7 +17,7 @@ public class HexaApplication extends Application {
         List<String> idiomas = List.of("Español", "English");
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Español", idiomas);
-        dialog.setTitle("Seleccionar idioma");
+        dialog.setTitle("Select your language");
         dialog.setHeaderText("Selecciona tu idioma / Select your language");
         dialog.setContentText("Idioma / Language:");
 
@@ -31,7 +31,7 @@ public class HexaApplication extends Application {
             }
         }).orElse(Locale.getDefault());
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HexaApplication.class.getResource("/xndr/hexaludic/hexa-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HexaApplication.class.getResource("/xndr/hexaludic/hexaludic/hexa-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("HexaLudic");
         stage.setScene(scene);

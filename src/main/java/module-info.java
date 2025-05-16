@@ -1,11 +1,16 @@
 module xndr.hexaludic.hexaludic {
     requires javafx.controls;
     requires javafx.fxml;
-    requires static lombok;
-    requires com.google.gson;
 
+    requires lombok;
+    requires com.google.gson;
+    requires org.apache.logging.log4j;
+
+    exports xndr.hexaludic.hexaludic.application;
+    exports xndr.hexaludic.hexaludic.controller to javafx.fxml;
+    exports xndr.hexaludic.hexaludic.ui;
 
     opens xndr.hexaludic.hexaludic to javafx.fxml;
-    exports xndr.hexaludic.hexaludic;
-    opens
+    opens xndr.hexaludic.hexaludic.controller to javafx.fxml;
+    opens xndr.hexaludic.hexaludic.dao to com.google.gson;
 }
