@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="xndr.hexaludic.hexaludic.controller.AdminController"
+      alignment="CENTER"
+      spacing="15"
+      prefWidth="300" prefHeight="250">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Admin login" style="-fx-font-size: 16px;"/>
+    <Label text="Introduce the admin password:" style="-fx-font-size: 12px;"/>
+
+    <PasswordField fx:id="passwordField" promptText="Password" />
+
+    <Label fx:id="errorLabel" textFill="red" visible="false"/>
+
+    <Button text="Login" onAction="#handleLogin"/>
+</VBox>

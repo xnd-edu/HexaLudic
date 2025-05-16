@@ -8,17 +8,28 @@ import java.util.Properties;
 
 @Log4j2
 public class Config {
+    private Properties properties;
 
-    public String loadPathProperties(){
-        Properties properties= new Properties();
-        try {
-            InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
-            properties.load(input);
-            return (String)properties.get("pathJson");
+    public Config() {
+        properties = new Properties();
+        try (InputStream in = getClass().getResourceAsStream("/xndr/hexaludic/hexaludic/config.properties")) {
+            if (in == null) {
+                log.error("No se encontró config.properties");
+            } else {
+                properties.load(in);
+            }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             log.error(e.getMessage(), e);
         }
-        return null;//path no encontrado
+    }
+
+    public String loadPathProperties() {
+        return properties.getProperty("pathJson");
+    }
+
+    public String loadPasswordProperties() {
+        return properties.getProperty("adminPass");
     }
 }
+
+
