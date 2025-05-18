@@ -13,4 +13,5 @@ module xndr.hexaludic.hexaludic {
     opens xndr.hexaludic.hexaludic to javafx.fxml;
     opens xndr.hexaludic.hexaludic.controller to javafx.fxml;
     opens xndr.hexaludic.hexaludic.dao to com.google.gson;
+    opens xndr.hexaludic.hexaludic.domain to com.google.gson;
 }

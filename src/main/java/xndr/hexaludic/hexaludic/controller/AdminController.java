@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
@@ -34,22 +35,32 @@ public class AdminController implements Initializable {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
 
+    private String password = "";
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        // Cargar la contraseña desde el archivo de propiedades
+        password = new Config().loadPasswordProperties();
+        System.out.println("Password cargada: '" + password + "'");
+        // log.info("Contraseña cargada: '" + password + "'");
     }
 
 
     @FXML
     protected void handleLogin() {
         String input = passwordField.getText();
-        String password = new Config().loadPasswordProperties();
-        System.out.println("Password cargada: '" + password + "'");
-        // log.info("Contraseña cargada: '" + password + "'");
-
 
         if (input.equals(password)) {
+            ChoiceDialog<String> chooseGame = new ChoiceDialog<>("Snakes and Ladders", "Goose Game", "Yahtzee");
+            chooseGame.setTitle("Game selection");
+            chooseGame.setHeaderText("Choose the game to administrate:");
+            Optional<String> selectedGame = chooseGame.showAndWait();
+            if (selectedGame.isEmpty()) {
+                return;
+            }
+
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/xndr/hexaludic/hexaludic/admin-menu.fxml"));
             Parent root = null;
             try {

@@ -27,6 +27,10 @@ public class Config {
         return properties.getProperty("pathJson");
     }
 
+    public String loadGamePathProperties() {
+        return properties.getProperty("pathGames");
+    }
+
     public String loadPasswordProperties() {
         return properties.getProperty("adminPass");
     }

@@ -20,5 +20,6 @@ public class Partidas {
         this.listaPartidas = new ArrayList<Partida>();
 
         listaPartidas.add(new Partida(1, true, "Arthur", LocalDateTime.now()));
+        listaPartidas.add(new Partida(2, false, "Pepe", LocalDateTime.now()));
     }
 }
