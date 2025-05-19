@@ -23,20 +23,20 @@ public class TableroOca {
             tablero.add(new Casilla(oca, "oca"));
         }
 
-        // Puentes / Dados (con salto)
+        // Puentes y dados
         tablero.add(new Casilla(6, "puente", 12));
         tablero.add(new Casilla(12, "puente", 6));
         tablero.add(new Casilla(26, "puente", 53));
         tablero.add(new Casilla(53, "puente", 26));
 
-        // Pozo (castigo de turnos)
+        // Pozo
         tablero.add(new Casilla(31, "pozo", 3));
 
-        // Castigos como posada y cárcel
-        tablero.add(new Casilla(19, "castigo", 2)); // ej. 2 turnos sin jugar
+        // Posada y cárcel
+        tablero.add(new Casilla(19, "castigo", 2));
         tablero.add(new Casilla(56, "castigo", 3));
 
-        // Laberinto y muerte (puedes darle un tipo diferente si quieres manejarlo especial)
+        // Laberinto y muerte
         tablero.add(new Casilla(42, "laberinto"));
         tablero.add(new Casilla(58, "muerte"));
 

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="187.0" prefWidth="187.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xndr.hexaludic.hexaludic.controller.HexaController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
+<BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xndr.hexaludic.hexaludic.controller.AdminController">
 
-    <Label fx:id="welcomeText" />
-    <Button onAction="#onHelloButtonClick" text="Hello!" />
-</VBox>
+    <left>
+        <VBox spacing="10" style="-fx-border-color: transparent #000000 transparent transparent;">
+            <Button onAction="#handleGuardados" text="Guardados" />
+            <Button onAction="#handleTableroOca" text="Tablero Oca" />
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="contentPane" style="-fx-padding: 10;" />
+    </center>
+</BorderPane>

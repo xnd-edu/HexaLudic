@@ -19,7 +19,7 @@ public class Partidas {
     public Partidas() {
         this.listaPartidas = new ArrayList<Partida>();
 
-        listaPartidas.add(new Partida(1, true, "Arthur", LocalDateTime.now()));
-        listaPartidas.add(new Partida(2, false, "Pepe", LocalDateTime.now()));
+        listaPartidas.add(new Partida(1, "Oca", true, "Arthur", LocalDateTime.now()));
+        listaPartidas.add(new Partida(2, "Yahtzee", false, "Pepe", LocalDateTime.now()));
     }
 }
