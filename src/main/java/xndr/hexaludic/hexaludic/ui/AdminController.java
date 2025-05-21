@@ -52,7 +52,7 @@ public class AdminController implements Initializable {
 
         if (input.equals(password)) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/xndr/hexaludic/hexaludic/admin-menu.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/xndr/hexaludic/hexaludic/fxml/admin-menu.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) passwordField.getScene().getWindow();

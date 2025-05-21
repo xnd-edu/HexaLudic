@@ -54,9 +54,9 @@ public class HexaApplication extends Application {
                 }
             }).orElse(Locale.getDefault());
 
-            loadFXML("/xndr/hexaludic/hexaludic/hexa-view.fxml", stage);
+            loadFXML("/xndr/hexaludic/hexaludic/fxml/hexa-view.fxml", stage);
         } else if (selectedOption.equals("Administrate")) {
-            loadFXML("/xndr/hexaludic/hexaludic/admin-login.fxml", stage);
+            loadFXML("/xndr/hexaludic/hexaludic/fxml/admin-login.fxml", stage);
         }
 
     }

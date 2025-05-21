@@ -5,6 +5,7 @@ module xndr.hexaludic.hexaludic {
     requires lombok;
     requires com.google.gson;
     requires org.apache.logging.log4j;
+    requires MaterialFX;
 
     exports xndr.hexaludic.hexaludic.ui;
 
