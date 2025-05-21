@@ -25,6 +25,11 @@
             <artifactId>javafx-fxml</artifactId>
             <version>23.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.palexdev</groupId>
+            <artifactId>materialfx</artifactId>
+            <version>11.17.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -80,7 +85,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>xndr.hexaludic.hexaludic/xndr.hexaludic.hexaludic.application.HexaApplication</mainClass>
+                            <mainClass>xndr.hexaludic.hexaludic/xndr.hexaludic.hexaludic.ui.HexaApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

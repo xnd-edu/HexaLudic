@@ -1,22 +1,19 @@
-package xndr.hexaludic.hexaludic.controller;
+package xndr.hexaludic.hexaludic.ui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
+import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import xndr.hexaludic.hexaludic.common.Config;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
@@ -58,7 +55,6 @@ public class AdminController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/xndr/hexaludic/hexaludic/admin-menu.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
-                scene.getStylesheets().add(getClass().getResource("/xndr/hexaludic/hexaludic/styles/admin.css").toExternalForm());
                 Stage stage = (Stage) passwordField.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
@@ -84,18 +80,36 @@ public class AdminController implements Initializable {
 
     @FXML
     protected void handleTableroOca() {
-
+        mostrarArchivos(new Config().loadGamePathProperties());
     }
 
     private void mostrarArchivos(String path) {
         File dir = new File(path);
+        File[] archivos = dir.listFiles(File::isFile);
 
-        StringBuilder sb = new StringBuilder("Archivos encontrados:\n");
-        Arrays.stream(dir.listFiles())
-                .filter(File::isFile)
-                .forEach(file -> sb.append("- ").append(file.getName()).append("\n"));
+        if (archivos == null || archivos.length == 0) {
+            contentPane.getChildren().setAll(new Label("No hay archivos disponibles."));
+            return;
+        }
 
-        contentPane.getChildren().clear();
-        contentPane.getChildren().add(new Label(sb.toString()));
+        ComboBox<File> comboBox = new ComboBox<>();
+        comboBox.getItems().addAll(archivos);
+        comboBox.setPromptText("Selecciona un archivo");
+
+        Button editarButton = new Button("Editar");
+        editarButton.setOnAction(e -> {
+            File seleccionado = comboBox.getValue();
+            if (seleccionado != null) {
+                editarArchivo(seleccionado);
+            }
+        });
+
+        VBox layout = new VBox(10, comboBox, editarButton);
+        contentPane.getChildren().setAll(layout);
+    }
+
+
+    private void editarArchivo(File seleccion) {
+
     }
 }

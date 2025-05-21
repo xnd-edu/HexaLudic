@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="250" prefWidth="300" spacing="15" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xndr.hexaludic.hexaludic.controller.AdminController">
+<VBox alignment="CENTER" prefHeight="250" prefWidth="300" spacing="15" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xndr.hexaludic.hexaludic.ui.AdminController">
 
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />

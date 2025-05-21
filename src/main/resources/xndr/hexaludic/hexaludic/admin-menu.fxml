@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xndr.hexaludic.hexaludic.controller.AdminController">
+<BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xndr.hexaludic.hexaludic.ui.AdminController">
 
     <left>
         <VBox spacing="10" style="-fx-border-color: transparent #000000 transparent transparent;">

@@ -1,4 +1,4 @@
-package xndr.hexaludic.hexaludic.application;
+package xndr.hexaludic.hexaludic.ui;
 
 import javafx.application.Application;
 import javafx.application.Platform;

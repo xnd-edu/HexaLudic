@@ -6,12 +6,10 @@ module xndr.hexaludic.hexaludic {
     requires com.google.gson;
     requires org.apache.logging.log4j;
 
-    exports xndr.hexaludic.hexaludic.application;
-    exports xndr.hexaludic.hexaludic.controller to javafx.fxml;
     exports xndr.hexaludic.hexaludic.ui;
 
     opens xndr.hexaludic.hexaludic to javafx.fxml;
-    opens xndr.hexaludic.hexaludic.controller to javafx.fxml;
+    opens xndr.hexaludic.hexaludic.ui to javafx.fxml;
     opens xndr.hexaludic.hexaludic.dao to com.google.gson;
     opens xndr.hexaludic.hexaludic.domain to com.google.gson;
 }
