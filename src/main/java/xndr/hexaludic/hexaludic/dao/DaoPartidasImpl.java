@@ -1,8 +1,9 @@
 package xndr.hexaludic.hexaludic.dao;
 
+import xndr.hexaludic.hexaludic.common.GuardadoNoEncontradoException;
+import xndr.hexaludic.hexaludic.common.PartidaDuplicadaException;
 import xndr.hexaludic.hexaludic.domain.Partida;
 
-import java.io.IOException;
 import java.util.List;
 
 public class DaoPartidasImpl implements DaoPartidas {
@@ -29,6 +30,10 @@ public class DaoPartidasImpl implements DaoPartidas {
 
     @Override
     public boolean addPartida(Partida partida) {
+        boolean existe = getPartida(partida);
+        if (existe) {
+            throw new PartidaDuplicadaException(partida.getId());
+        }
         return partidas.getListaPartidas().add(partida);
     }
 
@@ -36,6 +41,12 @@ public class DaoPartidasImpl implements DaoPartidas {
     public boolean getPartida(Partida partida) {
         List<Partida> partidas = getListaPartidas();
         return partidas.stream().anyMatch(p -> p.getId() == partida.getId());
+    }
+
+    @Override
+    public boolean getPartidaById(int id) {
+        List<Partida> partidas = getListaPartidas();
+        return partidas.stream().anyMatch(p -> p.getId() == id);
     }
 
     @Override
@@ -53,7 +64,11 @@ public class DaoPartidasImpl implements DaoPartidas {
     @Override
     public void cargarGuardado(String jugador) {
         Guardados guardados = new Guardados();
-        setPartidas(guardados.loadPartidas(jugador));
+        List<Partida> partidas = guardados.loadPartidas(jugador);
+        if (partidas == null || partidas.isEmpty()) {
+            throw new GuardadoNoEncontradoException(jugador);
+        }
+        setPartidas(partidas);
     }
 
     @Override

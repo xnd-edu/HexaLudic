@@ -10,10 +10,9 @@ public interface DaoPartidas {
     void removePartida(Partida partida);
     boolean addPartida(Partida partida);
     boolean getPartida(Partida partida);
+    boolean getPartidaById(int id);
     boolean updatePartida(Partida partida1, Partida partida2);
-
     void setPartidas(List<Partida> partidas);
-
     void cargarGuardado(String jugador);
     boolean guardarGuardado(String jugador);
 }

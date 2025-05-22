@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import xndr.hexaludic.hexaludic.domain.Partida;
 import xndr.hexaludic.hexaludic.service.ServicioPartidas;
+import xndr.hexaludic.hexaludic.service.ServicioPartidasImpl;
 
 public class EditorController {
     @FXML
@@ -46,6 +47,8 @@ public class EditorController {
 
     @FXML
     private MFXToggleButton modooscuro;
+
+    ServicioPartidasImpl servicioPartidas = new ServicioPartidasImpl();
 
     public ServicioPartidas getServicioAnimales() { return servicioPartidas; }
 

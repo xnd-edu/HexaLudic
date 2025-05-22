@@ -4,7 +4,6 @@ import xndr.hexaludic.hexaludic.dao.DaoPartidas;
 import xndr.hexaludic.hexaludic.dao.DaoPartidasImpl;
 import xndr.hexaludic.hexaludic.domain.Partida;
 
-import java.io.IOException;
 import java.util.List;
 
 public class ServicioPartidasImpl implements ServicioPartidas {
@@ -35,8 +34,18 @@ public class ServicioPartidasImpl implements ServicioPartidas {
     }
 
     @Override
+    public void setPartidas(List<Partida> partidas) {
+        daoPartidas.setPartidas(partidas);
+    }
+
+    @Override
     public boolean getPartida(Partida partida) {
         return daoPartidas.getPartida(partida);
+    }
+
+    @Override
+    public boolean getPartidaById(int id) {
+        return daoPartidas.getPartidaById(id);
     }
 
     @Override

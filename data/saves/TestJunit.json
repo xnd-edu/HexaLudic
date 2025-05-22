@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "fechaPartida": "2025-05-20T15:30:00",
+    "juego": "Oca",
+    "victoria": true,
+    "jugador2": "Pepe"
+  }
+]
