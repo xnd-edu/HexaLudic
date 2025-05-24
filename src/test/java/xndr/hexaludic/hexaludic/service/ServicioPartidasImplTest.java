@@ -1,6 +1,9 @@
 package xndr.hexaludic.hexaludic.service;
 
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import xndr.hexaludic.hexaludic.common.PartidaDuplicadaException;
 import xndr.hexaludic.hexaludic.dao.DaoPartidas;
 import xndr.hexaludic.hexaludic.domain.Partida;
 
@@ -20,12 +23,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @Log4j2
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
 class ServicioPartidasImplTest {
+    private static final Logger logger = LogManager.getLogger(ServicioPartidasImplTest.class);
+
 
     @InjectMocks
     ServicioPartidasImpl servicio;
@@ -70,15 +77,16 @@ class ServicioPartidasImplTest {
 
         @Test
         void addPartidaInvalida() {
-            Partida partida = new Partida(1, "Oca", true, "Arthur", LocalDateTime.now());
-            servicio.setPartidas(List.of(partida));
+            Partida partidaDuplicada = new Partida(1, "Oca", true, "Arthur", LocalDateTime.now());
 
-            when(dao.addPartida(partida)).thenReturn(false);
+            when(dao.addPartida(partidaDuplicada))
+                    .thenThrow(new PartidaDuplicadaException(partidaDuplicada.getId()));
 
-            boolean resultado = servicio.addPartida(partida);
+            assertThrows(PartidaDuplicadaException.class, () -> {
+                servicio.addPartida(partidaDuplicada);
+            });
 
-            assertThat(resultado).isFalse();
-            log.info("Test addPartidaInvalida ejecutado");
+            log.info("Test addPartidaDuplicadaLanzaExcepcion ejecutado");
         }
     }
 
@@ -114,7 +122,8 @@ class ServicioPartidasImplTest {
     @Order(5)
     void getPartida() {
         Partida partida = new Partida(20, "Oca", true, "Pepe", LocalDateTime.now());
-        servicio.setPartidas(List.of(partida));
+
+        when(dao.getPartida(partida)).thenReturn(true);
 
         Boolean resultado = servicio.getPartida(partida);
 
@@ -126,19 +135,17 @@ class ServicioPartidasImplTest {
     @ValueSource(ints = {1, 2, 3, 5, 7})
     @Order(6)
     void getPartidaById(int id) {
-        List<Partida> partidas = new ArrayList<>();
-        partidas.add(new Partida(1, "Oca", true, "Arthur", LocalDateTime.now()));
-        partidas.add(new Partida(2, "Yahtzee", false, "Pepe", LocalDateTime.now()));
-        partidas.add(new Partida(3, "Oca", true, "Alguien", LocalDateTime.now()));
-        partidas.add(new Partida(4, "Serpientes y Escaleras", false, "Carlos", LocalDateTime.now()));
-        partidas.add(new Partida(5, "Serpientes y Escaleras", true, "Elena", LocalDateTime.now()));
-        partidas.add(new Partida(6, "Oca", false, "Marcos", LocalDateTime.now()));
-        partidas.add(new Partida(7, "Yahtzee", true, "Pedro", LocalDateTime.now()));
-        when(dao.getListaPartidas()).thenReturn(partidas);
+        Partida partida1 = new Partida(1, "Oca", true, "Arthur", LocalDateTime.now());
+        Partida partida2 = new Partida(2, "Yahtzee", false, "Pepe", LocalDateTime.now());
+        Partida partida3 = (new Partida(3, "Oca", true, "Alguien", LocalDateTime.now()));
+        Partida partida4 = new Partida(5, "Serpientes y Escaleras", true, "Elena", LocalDateTime.now());
+        Partida partida5 = new Partida(7, "Yahtzee", true, "Pedro", LocalDateTime.now());
+
+        when(dao.getPartidaById(id)).thenReturn(true);
 
         boolean resultado = servicio.getPartidaById(id);
 
-        assertThat(resultado).isTrue();
+        assertTrue(resultado);
         log.info("Test getPartidaById ejecutado");
     }
 }
