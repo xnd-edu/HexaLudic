@@ -24,8 +24,8 @@ public class ServicioPartidasImpl implements ServicioPartidas {
     }
 
     @Override
-    public void removePartida(Partida partida) {
-        daoPartidas.removePartida(partida);
+    public boolean removePartida(Partida partida) {
+        return daoPartidas.removePartida(partida);
     }
 
     @Override

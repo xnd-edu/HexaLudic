@@ -2,6 +2,7 @@ package xndr.hexaludic.hexaludic.dao;
 
 import lombok.Data;
 import xndr.hexaludic.hexaludic.domain.Casilla;
+import xndr.hexaludic.hexaludic.domain.Partida;
 
 import java.util.*;
 
@@ -51,5 +52,10 @@ public class TableroOca {
 
         // Ordena por número por si acaso
         tablero.sort(Comparator.comparingInt(Casilla::getNum));
+    }
+
+    public void setTablero(List<Casilla> tablero) {
+        this.tablero.clear();
+        this.tablero.addAll(tablero);
     }
 }

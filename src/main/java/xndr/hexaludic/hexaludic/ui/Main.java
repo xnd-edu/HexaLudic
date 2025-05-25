@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-public class HexaApplication extends Application {
+public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         String opcion = "";

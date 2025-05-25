@@ -2,27 +2,29 @@
 
 <?import io.github.palexdev.materialfx.controls.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="556.0" prefWidth="878.0" style="-fx-background-color: #e6e9eb" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xndr.hexaludic.hexaludic.ui.EditorController">
+<AnchorPane fx:id="anchorPane" prefHeight="556.0" prefWidth="878.0" style="-fx-background-color: #e6e9eb" stylesheets="@css/DefaultTheme.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xndr.hexaludic.hexaludic.ui.EditorController">
    <children>
-      <MFXButton fx:id="botonDelete" layoutX="245.0" layoutY="90.0" mnemonicParsing="false" onAction="#deleteAnimal" text="Eliminar" />
-      <MFXButton fx:id="botonAdd" layoutX="46.0" layoutY="90.0" mnemonicParsing="false" onAction="#addAnimal" text="Añadir" />
-      <MFXButton fx:id="botonUpdate" layoutX="141.0" layoutY="90.0" mnemonicParsing="false" onAction="#updateAnimal" text="Actualizar" />
-      <MFXTextField fx:id="id" alignment="CENTER" layoutX="383.0" layoutY="106.0" prefHeight="25.0" prefWidth="200.0" promptText="id" />
-      <MFXTextField fx:id="nombre" alignment="CENTER" layoutX="383.0" layoutY="171.0" prefHeight="25.0" prefWidth="200.0" promptText="Nombre" />
-      <MFXTextField fx:id="edad" alignment="CENTER" layoutX="383.0" layoutY="236.0" prefHeight="25.0" prefWidth="200.0" promptText="Edad" />
-      <TableView fx:id="tablaAnimales" layoutX="24.0" layoutY="177.0" prefHeight="209.0" prefWidth="324.0">
-        <columns>
-          <TableColumn fx:id="columna1" prefWidth="40" text="id"/>
-          <TableColumn fx:id="columna2" prefWidth="100" text="Nombre" />
-          <TableColumn fx:id="columna3" prefWidth="50" text="Edad" />
-          <TableColumn fx:id="columna4" prefWidth="130" text="Raza" />
-        </columns>
-      </TableView>
-      <MFXComboBox fx:id="comboBox" alignment="CENTER" layoutX="383.0" layoutY="304.0" prefHeight="60.0" prefWidth="200.0" promptText="Raza" />
+      <MFXButton fx:id="botonDelete" layoutX="196.0" layoutY="400.0" mnemonicParsing="false" onAction="#deletePartida" text="Eliminar" />
+      <MFXButton fx:id="botonAdd" layoutX="24.0" layoutY="400.0" mnemonicParsing="false" onAction="#addPartida" text="Añadir" />
+      <MFXButton fx:id="botonUpdate" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" onAction="#updatePartida" text="Actualizar" />
+      <MFXTextField fx:id="id" alignment="CENTER" layoutX="640.0" layoutY="178.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="id" />
+      <MFXTextField fx:id="juego" alignment="CENTER" layoutX="640.0" layoutY="222.5" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="Juego" />
+      <MFXComboBox fx:id="resultado" alignment="CENTER" layoutX="640.0" layoutY="267.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="Resultado" />
+       <MFXTextField fx:id="jugador2" alignment="CENTER" layoutX="640.0" layoutY="311.5" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="Jugador 2" />
+       <MFXTextField fx:id="fechaPartida" alignment="CENTER" layoutX="640.0" layoutY="356.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="Fecha de la partida" />
+
+       <MFXTableView fx:id="tablaPartidas" layoutX="24.0" layoutY="177.0" prefHeight="209.0" prefWidth="600.0">
+           <tableColumns>
+               <MFXTableColumn fx:id="columna1" text="ID" />
+               <MFXTableColumn fx:id="columna2" text="Juego" />
+               <MFXTableColumn fx:id="columna3" text="Resultado" />
+               <MFXTableColumn fx:id="columna4" minWidth="-Infinity" prefWidth="120.0" text="Jugador 2" />
+               <MFXTableColumn fx:id="columna5" minWidth="-Infinity" prefWidth="170.0" text="Fecha" />
+           </tableColumns>
+       </MFXTableView>
       <MFXToggleButton fx:id="toggleidioma" layoutX="721.0" layoutY="440.0" length="40.0" onAction="#cambioIdioma" prefHeight="49.0" prefWidth="7.0" text="Español" />
       <Label fx:id="label" alignment="CENTER" layoutX="214.0" layoutY="28.0" prefHeight="49.0" prefWidth="470.0" text="Ejemplo CRUD FX">
          <font>

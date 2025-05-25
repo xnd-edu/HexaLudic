@@ -14,6 +14,7 @@ import xndr.hexaludic.hexaludic.common.Config;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
@@ -52,7 +53,8 @@ public class AdminController implements Initializable {
 
         if (input.equals(password)) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/xndr/hexaludic/hexaludic/fxml/admin-menu.fxml"));
+                ResourceBundle rb = ResourceBundle.getBundle("/xndr/hexaludic/hexaludic/textos", Locale.getDefault());
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/xndr/hexaludic/hexaludic/fxml/admin-editor.fxml"), rb);
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) passwordField.getScene().getWindow();

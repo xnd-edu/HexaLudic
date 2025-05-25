@@ -109,7 +109,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>xndr.hexaludic.hexaludic/xndr.hexaludic.hexaludic.ui.HexaApplication</mainClass>
+                            <mainClass>xndr.hexaludic.hexaludic/xndr.hexaludic.hexaludic.ui.Main</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

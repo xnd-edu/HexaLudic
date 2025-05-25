@@ -24,8 +24,8 @@ public class DaoPartidasImpl implements DaoPartidas {
     }
 
     @Override
-    public void removePartida(Partida partida) {
-        partidas.getListaPartidas().remove(partida);
+    public boolean removePartida(Partida partida) {
+        return partidas.getListaPartidas().remove(partida);
     }
 
     @Override

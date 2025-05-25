@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DaoPartidas {
     List<Partida> getListaPartidas();
-    void removePartida(Partida partida);
+    boolean removePartida(Partida partida);
     boolean addPartida(Partida partida);
     boolean getPartida(Partida partida);
     boolean getPartidaById(int id);
