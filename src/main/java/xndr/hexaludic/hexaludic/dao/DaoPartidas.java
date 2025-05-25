@@ -13,6 +13,6 @@ public interface DaoPartidas {
     boolean getPartidaById(int id);
     boolean updatePartida(Partida partida1, Partida partida2);
     void setPartidas(List<Partida> partidas);
-    void cargarGuardado(String jugador);
+    List<Partida> cargarGuardado(String jugador);
     boolean guardarGuardado(String jugador);
 }

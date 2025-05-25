@@ -8,13 +8,13 @@ import java.util.List;
 
 public class ServicioPartidasImpl implements ServicioPartidas {
 
-    private final DaoPartidas daoPartidas;
+    private final DaoPartidasImpl daoPartidas;
 
     public ServicioPartidasImpl() {
         this.daoPartidas = new DaoPartidasImpl();
     }
 
-    public ServicioPartidasImpl(DaoPartidas daoPartidas) {
+    public ServicioPartidasImpl(DaoPartidasImpl daoPartidas) {
         this.daoPartidas = daoPartidas;
     }
 
@@ -54,8 +54,8 @@ public class ServicioPartidasImpl implements ServicioPartidas {
     }
 
     @Override
-    public void cargarGuardado(String jugador) {
-        daoPartidas.cargarGuardado(jugador);
+    public List<Partida> cargarGuardado(String jugador) {
+        return daoPartidas.cargarGuardado(jugador);
     }
 
     @Override

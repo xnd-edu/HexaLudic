@@ -1,11 +1,13 @@
 package xndr.hexaludic.hexaludic.dao;
 
+import lombok.extern.log4j.Log4j2;
 import xndr.hexaludic.hexaludic.common.GuardadoNoEncontradoException;
 import xndr.hexaludic.hexaludic.common.PartidaDuplicadaException;
 import xndr.hexaludic.hexaludic.domain.Partida;
 
 import java.util.List;
 
+@Log4j2
 public class DaoPartidasImpl implements DaoPartidas {
 
     private final Partidas partidas;
@@ -52,7 +54,7 @@ public class DaoPartidasImpl implements DaoPartidas {
     @Override
     public boolean updatePartida(Partida partida1, Partida partida2) {
         removePartida(partida1);
-        addPartida(partida2);
+        partidas.getListaPartidas().add(partida2);
         return getPartida(partida2);
     }
 
@@ -62,13 +64,12 @@ public class DaoPartidasImpl implements DaoPartidas {
     }
 
     @Override
-    public void cargarGuardado(String jugador) {
+    public List<Partida> cargarGuardado(String jugador) {
         Guardados guardados = new Guardados();
         List<Partida> partidas = guardados.loadPartidas(jugador);
-        if (partidas == null || partidas.isEmpty()) {
-            throw new GuardadoNoEncontradoException(jugador);
-        }
         setPartidas(partidas);
+        log.info("Partidas de " + jugador + " cargadas: " + partidas);
+        return partidas;
     }
 
     @Override

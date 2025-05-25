@@ -1807,6 +1807,38 @@ Virtual Flow
   -mfx-size: 13px;
 }
 
-#botonDelete {
+/***********************************/
+
+@font-face {
+  font-family: "Rodin Pro B";
+  src: url("../fonts/Rodin Pro B.otf");
+}
+
+.label {
+  -fx-font-family: "Rodin Pro B";
+}
+
+
+.botonPeligro {
   -fx-background-color: -mfx-red;
+  -fx-background-radius: 12px;
+}
+
+.mfx-button, .mfx-button:hover {
+  -fx-border-color: -mfx-blue;
+  -fx-background-radius: 12px;
+  -fx-border-radius: 12px;
+  -fx-border-width: 2px;
+}
+
+.mfx-text-field {
+  -fx-background-radius: 12px;
+  -fx-border-radius: 12px;
+  -fx-border-color: -mfx-blue;
+}
+
+.botonGrande, .botonGrande:hover {
+  -fx-background-radius: 100px;
+  -fx-border-radius: 100px;
+  -fx-font-size: 18px;
 }

@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="556.0" prefWidth="878.0" style="-fx-background-color: #e6e9eb" stylesheets="@css/DefaultTheme.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xndr.hexaludic.hexaludic.ui.EditorController">
+<AnchorPane fx:id="anchorPane" prefHeight="556.0" prefWidth="878.0" style="-fx-background-color: #333333;" stylesheets="@css/DefaultTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xndr.hexaludic.hexaludic.ui.EditorController">
    <children>
-      <MFXButton fx:id="botonDelete" layoutX="196.0" layoutY="400.0" mnemonicParsing="false" onAction="#deletePartida" text="Eliminar" />
-      <MFXButton fx:id="botonAdd" layoutX="24.0" layoutY="400.0" mnemonicParsing="false" onAction="#addPartida" text="Añadir" />
+      <ImageView fitHeight="549.0" fitWidth="884.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../bg.png" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="88.0" layoutX="-1.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="884.0" />
+      <Pane layoutX="24.0" layoutY="43.0" prefHeight="42.0" prefWidth="600.0" style="-fx-background-color: #ffffff; -fx-background-radius: 8 36 0 0;">
+         <children>
+            <Label fx:id="label" layoutX="10.0" layoutY="-3.0" prefHeight="49.0" prefWidth="590.0" text="Panel de Administración">
+               <font>
+                  <Font name="Calibri Bold" size="28.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Line endX="679.5" layoutX="203.0" layoutY="85.0" startX="-204.0" startY="1.0" stroke="WHITE" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="88.0" layoutX="-1.0" layoutY="468.0" stroke="BLACK" strokeType="INSIDE" width="884.0" />
+      <Line endX="679.5" layoutX="203.0" layoutY="468.0" startX="-204.0" stroke="WHITE" />
+       <MFXComboBox fx:id="fileChooser" layoutX="24.0" layoutY="123.0" onAction="#handleGuardados" prefHeight="40.0" prefWidth="200.0" promptText="Archivo" />
+      <MFXButton fx:id="botonDelete" styleClass="botonPeligro" layoutX="196.0" layoutY="400.0" mnemonicParsing="false" onAction="#deletePartida" text="Eliminar" />
+      <MFXButton fx:id="botonAdd" layoutX="24.0" layoutY="400.0" mnemonicParsing="false" onAction="#addPartida" style="-fx-border-radius: 12;" text="Añadir" />
       <MFXButton fx:id="botonUpdate" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" onAction="#updatePartida" text="Actualizar" />
       <MFXTextField fx:id="id" alignment="CENTER" layoutX="640.0" layoutY="178.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="id" />
       <MFXTextField fx:id="juego" alignment="CENTER" layoutX="640.0" layoutY="222.5" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="Juego" />
@@ -16,21 +44,18 @@
        <MFXTextField fx:id="jugador2" alignment="CENTER" layoutX="640.0" layoutY="311.5" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="Jugador 2" />
        <MFXTextField fx:id="fechaPartida" alignment="CENTER" layoutX="640.0" layoutY="356.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="Fecha de la partida" />
 
-       <MFXTableView fx:id="tablaPartidas" layoutX="24.0" layoutY="177.0" prefHeight="209.0" prefWidth="600.0">
-           <tableColumns>
-               <MFXTableColumn fx:id="columna1" text="ID" />
-               <MFXTableColumn fx:id="columna2" text="Juego" />
-               <MFXTableColumn fx:id="columna3" text="Resultado" />
-               <MFXTableColumn fx:id="columna4" minWidth="-Infinity" prefWidth="120.0" text="Jugador 2" />
-               <MFXTableColumn fx:id="columna5" minWidth="-Infinity" prefWidth="170.0" text="Fecha" />
-           </tableColumns>
-       </MFXTableView>
-      <MFXToggleButton fx:id="toggleidioma" layoutX="721.0" layoutY="440.0" length="40.0" onAction="#cambioIdioma" prefHeight="49.0" prefWidth="7.0" text="Español" />
-      <Label fx:id="label" alignment="CENTER" layoutX="214.0" layoutY="28.0" prefHeight="49.0" prefWidth="470.0" text="Ejemplo CRUD FX">
-         <font>
-            <Font name="Calibri Bold" size="28.0" />
-         </font>
-      </Label>
-      <MFXToggleButton fx:id="modooscuro" layoutX="721.0" layoutY="484.0" length="40.0" onAction="#modoOscuro" prefHeight="49.0" prefWidth="7.0" text="Modo Oscuro" />
+       <TableView fx:id="tablaPartidas" layoutX="24.0" layoutY="177.0" prefHeight="209.0" prefWidth="600.0">
+           <columns>
+               <TableColumn fx:id="columna1" text="ID" />
+               <TableColumn fx:id="columna2" text="Juego" />
+               <TableColumn fx:id="columna3" text="Resultado" />
+               <TableColumn fx:id="columna4" minWidth="-Infinity" prefWidth="120.0" text="Jugador 2" />
+               <TableColumn fx:id="columna5" minWidth="-Infinity" prefWidth="170.0" text="Fecha" />
+           </columns>
+       </TableView>
+       <MFXButton fx:id="toggleidioma" layoutX="706.0" layoutY="488.0" onAction="#cambioIdioma" prefHeight="49.0" prefWidth="134.0" styleClass="botonGrande" text="Español" />
+       <MFXButton fx:id="quit" layoutX="33.0" layoutY="488.0" onAction="#salir" prefHeight="49.0" prefWidth="134.0" styleClass="botonGrande" text="Salir" />
+       <MFXButton fx:id="botonGuardar" layoutX="469.0" layoutY="400.0" mnemonicParsing="false" onAction="#guardarPartidas" text="Guardar" />
+       <MFXButton fx:id="botonVaciar" styleClass="botonPeligro" layoutX="558.0" layoutY="400.0" mnemonicParsing="false" onAction="#vaciarPartidas" text="Vaciar" />
    </children>
 </AnchorPane>

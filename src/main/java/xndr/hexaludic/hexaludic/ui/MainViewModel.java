@@ -12,7 +12,7 @@ import xndr.hexaludic.hexaludic.service.ServicioTableroOcaImpl;
 
 public class MainViewModel {
     private final ServicioPartidasImpl servicioPartidas;
-    private final ServicioTableroOca servicioTableroOca;
+    private final ServicioTableroOcaImpl servicioTableroOca;
     private final ObservableList<Partida> partidas;
     private final ObservableList<Casilla> tablero;
 
@@ -29,6 +29,11 @@ public class MainViewModel {
         this.servicioTableroOca = servicioTableroOca;
         partidas = FXCollections.observableArrayList(this.servicioPartidas.getListaPartidas());
         tablero = FXCollections.observableArrayList(this.servicioTableroOca.getListaCasillas());
+    }
+
+    public void recargarPartidas(String jugador) {
+        partidas.setAll(servicioPartidas.cargarGuardado(jugador));
+        System.out.println("Partidas recargadas: " + servicioPartidas.getListaPartidas());
     }
 
     public ObservableList<Partida> getPartidas() {

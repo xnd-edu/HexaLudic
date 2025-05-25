@@ -12,6 +12,6 @@ public interface ServicioPartidas {
     boolean getPartida(Partida partida);
     boolean getPartidaById(int id);
     boolean updatePartida(Partida partida1, Partida partida2);
-    void cargarGuardado(String jugador);
+    List<Partida> cargarGuardado(String jugador);
     void guardarGuardado(String jugador);
 }

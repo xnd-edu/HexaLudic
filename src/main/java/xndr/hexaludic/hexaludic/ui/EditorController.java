@@ -1,29 +1,28 @@
 package xndr.hexaludic.hexaludic.ui;
 
 import io.github.palexdev.materialfx.controls.*;
-import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
-import xndr.hexaludic.hexaludic.dao.DaoPartidas;
+import javafx.beans.property.SimpleStringProperty;
+import xndr.hexaludic.hexaludic.common.Config;
+import xndr.hexaludic.hexaludic.common.GuardadoNoEncontradoException;
+import xndr.hexaludic.hexaludic.common.PartidaDuplicadaException;
 import xndr.hexaludic.hexaludic.dao.DaoPartidasImpl;
 import xndr.hexaludic.hexaludic.dao.DaoTableroOcaImpl;
 import xndr.hexaludic.hexaludic.domain.Partida;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import xndr.hexaludic.hexaludic.service.ServicioPartidas;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import xndr.hexaludic.hexaludic.service.ServicioPartidasImpl;
 import xndr.hexaludic.hexaludic.service.ServicioTableroOcaImpl;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class EditorController implements Initializable {
 
@@ -31,23 +30,25 @@ public class EditorController implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     @FXML
+    private MFXComboBox<String> fileChooser;
+    @FXML
     private MFXButton botonAdd;
     @FXML
     private MFXButton botonDelete;
     @FXML
     private MFXButton botonUpdate;
     @FXML
-    private MFXTableView<Partida> tablaPartidas;
+    private TableView<Partida> tablaPartidas;
     @FXML
-    private MFXTableColumn<Partida> columna1;
+    private TableColumn<Partida, String> columna1;
     @FXML
-    private MFXTableColumn<Partida> columna2;
+    private TableColumn<Partida, String> columna2;
     @FXML
-    private MFXTableColumn<Partida> columna3;
+    private TableColumn<Partida, String> columna3;
     @FXML
-    private MFXTableColumn<Partida> columna4;
+    private TableColumn<Partida, String> columna4;
     @FXML
-    private MFXTableColumn<Partida> columna5;
+    private TableColumn<Partida, String> columna5;
 
     @FXML
     private MFXComboBox<String> comboBox;
@@ -64,39 +65,71 @@ public class EditorController implements Initializable {
     @FXML
     private Label label;
     @FXML
-    private MFXToggleButton toggleidioma;
-
+    private MFXButton toggleidioma;
     @FXML
-    private MFXToggleButton modooscuro;
+    private MFXButton quit;
+    @FXML
+    private MFXButton botonGuardar;
+    @FXML
+    private MFXButton botonVaciar;
+
+    private boolean english = false;
 
     public EditorController() {
-        viewModel = new MainViewModel(new ServicioPartidasImpl(new DaoPartidasImpl()), new ServicioTableroOcaImpl(new DaoTableroOcaImpl()));
+        DaoPartidasImpl daoPartidas = new DaoPartidasImpl();
+        ServicioPartidasImpl servicioPartidas = new ServicioPartidasImpl(daoPartidas);
+        ServicioTableroOcaImpl servicioTablero = new ServicioTableroOcaImpl(new DaoTableroOcaImpl());
+        viewModel = new MainViewModel(servicioPartidas, servicioTablero);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tablaPartidas.setItems(viewModel.getPartidas());
-        //mapeo de los atributos a las columnas
-        columna1.setRowCellFactory(partida -> new MFXTableRowCell<>(Partida::getId));
-        columna2.setRowCellFactory(partida -> new MFXTableRowCell<>(Partida::getJuego));
-        columna3.setRowCellFactory(partida -> new MFXTableRowCell<>(p -> p.isVictoria() ? "Win" : "Lose"));
-        columna4.setRowCellFactory(partida -> new MFXTableRowCell<>(Partida::getJugador2));
-        columna5.setRowCellFactory(partida -> new MFXTableRowCell<>(p ->
-                p.getFechaPartida().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
-        ));
-        resultado.getItems().addAll(resourceBundle.getString("combo1"), resourceBundle.getString("combo2"));
-        //si queremos que al seleccionar un elemento de la tabla se rellenen los textField hay que añadir un listener a la tabla para que
-        //ejecute el método onEdit cada vez que ocurra..
-        tablaPartidas.setOnMouseClicked((MouseEvent event) -> {
-            onEdit();
+        columna1.setCellValueFactory(new PropertyValueFactory<>("id"));
+        columna2.setCellValueFactory(new PropertyValueFactory<>("juego"));
+        columna3.setCellValueFactory(cellData -> {
+            boolean victoria = cellData.getValue().isVictoria();
+            return new SimpleStringProperty(victoria ? "Win" : "Lose");
         });
+        columna4.setCellValueFactory(new PropertyValueFactory<>("jugador2"));
+        columna5.setCellValueFactory(cellData -> {
+            LocalDateTime fecha = cellData.getValue().getFechaPartida();
+            String fechaStr = fecha != null ? fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) : "—";
+            return new SimpleStringProperty(fechaStr);
+        });
+
+        // Resto del código sigue igual...
+        resultado.getItems().addAll(resourceBundle.getString("combo1"), resourceBundle.getString("combo2"));
+
+        tablaPartidas.setOnMouseClicked((MouseEvent event) -> onEdit());
+
+        applyHoverScale(botonAdd, 1.1, 150);
+        applyHoverScale(botonDelete, 1.1, 150);
+        applyHoverScale(botonUpdate, 1.1, 150);
+        applyHoverScale(toggleidioma, 1.1, 150);
+        applyHoverScale(quit, 1.1, 150);
+        applyHoverScale(botonGuardar, 1.1, 150);
+        applyHoverScale(botonVaciar, 1.1, 150);
+
+        initializeFileChooser();
+    }
+
+
+    private void initializeFileChooser() {
+        File folder = new File(new Config().loadPathProperties());
+        if (folder.exists() && folder.isDirectory()) {
+            Optional.ofNullable(folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".json")))
+                    .ifPresent(files -> Arrays.stream(files)
+                            .map(File::getName)
+                            .forEach(fileChooser.getItems()::add));
+        }
     }
 
     public void onEdit() {
         //check si se ha seleccionado un elemento y actualiza los textField con los valores de los atributos del elemento seleccionado
         //Con esto no haría falta la imagen de ayuda puesto que el usuario no tendría que introducirlo en los textField
-        if (tablaPartidas.getSelectionModel().getSelectedValue() != null) {
-            Partida selectedPartida = tablaPartidas.getSelectionModel().getSelectedValue();
+        if (tablaPartidas.getSelectionModel().getSelectedItem() != null) {
+            Partida selectedPartida = tablaPartidas.getSelectionModel().getSelectedItem();
             String resultadoStr = "";
             if (selectedPartida.isVictoria())
                 resultadoStr = "Win";
@@ -114,7 +147,8 @@ public class EditorController implements Initializable {
     @FXML
     private void cambioIdioma() {
         ResourceBundle bundle;
-        if (toggleidioma.isSelected()) {
+        english = !english;
+        if (english) {
             bundle = ResourceBundle.getBundle("/xndr/hexaludic/hexaludic/textos", Locale.ENGLISH);
         } else {
             bundle = ResourceBundle.getBundle("/xndr/hexaludic/hexaludic/textos", Locale.getDefault());
@@ -135,54 +169,61 @@ public class EditorController implements Initializable {
         jugador2.setPromptText(bundle.getString("columnaJugador2"));
         fechaPartida.setPromptText(bundle.getString("columnaFecha"));
         toggleidioma.setText(bundle.getString("idioma"));
-        modooscuro.setText(bundle.getString("modooscuro"));
-        comboBox.getItems().clear();
-        comboBox.getItems().addAll(bundle.getString("combo1"), bundle.getString("combo2"));
+        resultado.getItems().clear();
+        resultado.getItems().addAll(bundle.getString("combo1"), bundle.getString("combo2"));
     }
 
     @FXML
-    private void modoOscuro() {
-        if (modooscuro.isSelected()) {
-            toggleidioma.setTextFill(Color.WHITE);
-            modooscuro.setTextFill(Color.WHITE);
-            anchorPane.setStyle("-fx-background-color: #000000;");
-            label.setTextFill(Color.WHITE);
-            label.setStyle("-fx-background-color: #000000");
-            botonAdd.setStyle("-fx-text-fill: white; -fx-background-color: #4B0082;");
-            botonDelete.setStyle("-fx-text-fill: white; -fx-background-color: #4B0082;");
-            botonUpdate.setStyle("-fx-text-fill: white; -fx-background-color: #4B0082;");
-        } else {
-            toggleidioma.setTextFill(Color.BLACK);
-            modooscuro.setTextFill(Color.BLACK);
-            anchorPane.setStyle("-fx-background-color: #ffffff;");
-            label.setTextFill(Color.BLACK);
-            label.setStyle("-fx-background-color: #ffffff");
-            botonAdd.setStyle("-fx-text-fill: black; -fx-background-color: #e6e9eb;");
-            botonDelete.setStyle("-fx-text-fill: black; -fx-background-color: #e6e9eb;");
-            botonUpdate.setStyle("-fx-text-fill: black; -fx-background-color: #e6e9eb;");
+    private void handleGuardados() {
+        String selectedFile = fileChooser.getValue();
+        if (selectedFile != null && selectedFile.endsWith(".json")) {
+            String jugador = selectedFile.substring(0, selectedFile.indexOf(".json"));
+            try {
+                viewModel.recargarPartidas(jugador);
+                System.out.println("Nuevas partidas: " + viewModel.getPartidas());
+            } catch (GuardadoNoEncontradoException e) {
+                mostrarAlertaGuardadoNoEncontrado(jugador);
+            }
         }
     }
+
 
     @FXML
     private void addPartida() {
         LocalDateTime fecha = stringToLocalDateTime(fechaPartida.getText());
+
         if (id.getText().isEmpty() || juego.getText().isEmpty() || resultado.getValue().isEmpty() || jugador2.getText().isEmpty() || fechaPartida.getText().isEmpty()) {
             alertaErrorAddPartida();
         } else {
-            Partida partida = new Partida(Integer.parseInt(id.getText()), juego.getText(), Boolean.parseBoolean(resultado.getText()), jugador2.getText(), fecha);
-            if (viewModel.getServicioPartidas().addPartida(partida)) {
-                tablaPartidas.getItems().add(partida);
-                alertaOKAddPartida();
-                limpiarCampos();
-            } else {
+            try {
+                Partida partida = new Partida(
+                        Integer.parseInt(id.getText()),
+                        juego.getText(),
+                        Boolean.parseBoolean(resultado.getText()),
+                        jugador2.getText(),
+                        fecha
+                );
+
+                if (viewModel.getServicioPartidas().addPartida(partida)) {
+                    tablaPartidas.getItems().add(partida);
+                    alertaOKAddPartida();
+                    limpiarCampos();
+                } else {
+                    alertaErrorAddPartida();
+                }
+            } catch (PartidaDuplicadaException e) {
+                alertaPartidaDuplicada(Integer.parseInt(id.getText()));
+            } catch (Exception e) {
+                e.printStackTrace(); // Útil para depuración
                 alertaErrorAddPartida();
             }
         }
     }
 
+
     @FXML
     private void deletePartida() {
-        Partida partida = tablaPartidas.getSelectionModel().getSelectedValue();
+        Partida partida = tablaPartidas.getSelectionModel().getSelectedItem();
         if (partida != null) {
             if (alertaConfirmationDeletePartida(partida)) {
                 if (viewModel.getServicioPartidas().removePartida(partida)) {
@@ -204,13 +245,13 @@ public class EditorController implements Initializable {
             alertaErrorUpdatePartida();
         } else {
             Partida partida1 = new Partida(Integer.parseInt(id.getText()), juego.getText(), Boolean.parseBoolean(resultado.getText()), jugador2.getText(), fecha);
-            Partida partida2 = tablaPartidas.getSelectionModel().getSelectedValue();
+            Partida partida2 = tablaPartidas.getSelectionModel().getSelectedItem();
             if (viewModel.getServicioPartidas().updatePartida(partida1, partida2)) {
                 tablaPartidas.getItems().remove(partida2);
                 tablaPartidas.getItems().add(partida1);
                 alertaOKUpdatePartida();
                 limpiarCampos();
-                tablaPartidas.update();
+                tablaPartidas.refresh();
             } else {
                 alertaErrorUpdatePartida();
             }
@@ -230,20 +271,57 @@ public class EditorController implements Initializable {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setTitle("Ayuda");
         a.setHeaderText("Ayuda");
-        a.setContentText("Selecciona el animal a actualizar en la tabla e introduce los nuevos datos");
+        a.setContentText("Selecciona el partida a actualizar en la tabla e introduce los nuevos datos");
         a.show();
+    }
+
+    @FXML
+    private void guardarPartidas() {
+        if (alertaConfirmationGuardar()) {
+            String selectedFile = fileChooser.getValue();
+            String jugador = selectedFile.substring(0, selectedFile.indexOf(".json"));
+            viewModel.getServicioPartidas().guardarGuardado(jugador);
+        }
+    }
+
+    @FXML
+    private void vaciarPartidas() {
+        if (alertaConfirmationVaciarPartidas())
+            viewModel.getServicioPartidas().setPartidas(List.of());
+    }
+
+    @FXML
+    private void salir() {
+
     }
 
 
     private void alertaErrorAddPartida() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText("Error al añadir el animal");
-        alert.setContentText("No se ha podido añadir el animal");
+        alert.setHeaderText("Error al añadir el partida");
+        alert.setContentText("No se ha podido añadir el partida");
         alert.show();
     }
 
-    private void alertaOKAddPartida() {
+    private void alertaPartidaDuplicada(int id) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("ID duplicado");
+        alert.setHeaderText("No se puede añadir la partida");
+        alert.setContentText("Ya existe una partida con el ID: " + id);
+        alert.show();
+    }
+
+    private void mostrarAlertaGuardadoNoEncontrado(String jugador) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Guardado no encontrado");
+        alert.setContentText("No se encontró ningún archivo de guardado para el jugador: " + jugador);
+        alert.show();
+    }
+
+
+private void alertaOKAddPartida() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Partida añadido correctamente");
         alert.setHeaderText("Partida añadido correctamente");
@@ -264,23 +342,43 @@ public class EditorController implements Initializable {
     private void alertaErrorUpdatePartida() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText("Error al actualizar animal");
-        alert.setContentText("Problemas al actualizar el animal");
+        alert.setHeaderText("Error al actualizar partida");
+        alert.setContentText("Problemas al actualizar el partida");
         alert.show();
     }
 
-    private boolean alertaConfirmationDeletePartida(Partida animal) {
+    private boolean alertaConfirmationDeletePartida(Partida partida) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Diálogo de Confirmación");
         alert.setHeaderText("Diálogo confirmación");
-        alert.setContentText("Confirma el borrado de " + animal + "?");
+        alert.setContentText("Confirma el borrado de " + partida + "?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            tablaPartidas.getItems().remove(animal);
+            tablaPartidas.getItems().remove(partida);
             return true;
         }
         return false;
+    }
+
+    private boolean alertaConfirmationVaciarPartidas() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Diálogo de Confirmación");
+        alert.setHeaderText("Diálogo confirmación");
+        alert.setContentText("¿Está seguro de que desea borrar todas las partidas?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
+    private boolean alertaConfirmationGuardar() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Diálogo de Confirmación");
+        alert.setHeaderText("Diálogo confirmación");
+        alert.setContentText("¿Desea guardar los cambios?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
 
     private void alertaOkDeletePartida() {
@@ -295,21 +393,39 @@ public class EditorController implements Initializable {
     private void alertaErrorDeletePartida() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText("Error al eliminar el animal");
-        alert.setContentText("No se ha podido eliminar el animal");
+        alert.setHeaderText("Error al eliminar el partida");
+        alert.setContentText("No se ha podido eliminar el partida");
         alert.show();
     }
 
     private LocalDateTime stringToLocalDateTime(String string) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d::MM::uuuu HH::mm::ss").withLocale(Locale.ENGLISH);
-
         try {
-            return LocalDateTime.parse(string, formatter);
+            return LocalDateTime.parse(string);
         } catch (Exception e) {
             System.out.println("Fecha inválida: " + e.getMessage());
+            return null;
         }
+    }
 
-        return null;
+
+    private void applyHoverScale(javafx.scene.Node node, double scale, int durationMs) {
+        javafx.animation.ScaleTransition stEnter = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(durationMs), node);
+        stEnter.setToX(scale);
+        stEnter.setToY(scale);
+
+        javafx.animation.ScaleTransition stExit = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(durationMs), node);
+        stExit.setToX(1.0);
+        stExit.setToY(1.0);
+
+        node.setOnMouseEntered(e -> {
+            stExit.stop();
+            stEnter.playFromStart();
+        });
+
+        node.setOnMouseExited(e -> {
+            stEnter.stop();
+            stExit.playFromStart();
+        });
     }
 
 }

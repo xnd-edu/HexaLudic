@@ -10,6 +10,8 @@ module xndr.hexaludic.hexaludic {
 
     exports xndr.hexaludic.hexaludic.ui;
     exports xndr.hexaludic.hexaludic.service;
+    exports xndr.hexaludic.hexaludic.dao;
+    exports xndr.hexaludic.hexaludic.domain;
 
     opens xndr.hexaludic.hexaludic to javafx.fxml;
     opens xndr.hexaludic.hexaludic.ui to javafx.fxml;

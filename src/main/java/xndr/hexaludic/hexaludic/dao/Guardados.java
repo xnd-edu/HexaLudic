@@ -21,17 +21,36 @@ public class Guardados {
         log.info("Leyendo guardado de " + jugador + ": " + path);
         Gson gson = GsonFactory.create();
         Type userListType = new TypeToken<ArrayList<Partida>>() {}.getType();
-        List<Partida> Partidas = null;
-        try {
-            Partidas = gson.fromJson(
-                    new FileReader(path),
-                    userListType);
-        } catch (FileNotFoundException e) {
-            log.error(e.getMessage(), e);
+        List<Partida> partidas = new ArrayList<>();
+
+        File file = new File(path);
+        // Si el jugador es nuevo, se le crea un archivo nuevo
+        if (!file.exists()) {
+            try {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+                try (FileWriter writer = new FileWriter(file)) {
+                    gson.toJson(partidas, writer);
+                }
+                log.info("Archivo creado para jugador nuevo: " + jugador);
+            } catch (IOException e) {
+                log.error("Error creando archivo nuevo para " + jugador, e);
+                return partidas;
+            }
         }
-        log.info("Partidas cargadas");
-        return Partidas;
+
+        // Si ya existe, lo leemos
+        try (FileReader reader = new FileReader(file)) {
+            partidas = gson.fromJson(reader, userListType);
+            if (partidas == null) partidas = new ArrayList<>();
+        } catch (IOException e) {
+            log.error("Error leyendo archivo de partidas de " + jugador, e);
+        }
+
+        log.info("Partidas cargadas: " + partidas.size());
+        return partidas;
     }
+
 
     public boolean savePartidas(List<Partida> partidas, String jugador) {
         String path = new Config().loadPathProperties() + jugador + ".json";
