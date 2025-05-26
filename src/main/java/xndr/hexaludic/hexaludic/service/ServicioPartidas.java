@@ -3,6 +3,7 @@ package xndr.hexaludic.hexaludic.service;
 import xndr.hexaludic.hexaludic.domain.Partida;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ServicioPartidas {
     List<Partida> getListaPartidas();
@@ -14,4 +15,5 @@ public interface ServicioPartidas {
     boolean updatePartida(Partida partida1, Partida partida2);
     List<Partida> cargarGuardado(String jugador);
     void guardarGuardado(String jugador);
+    Map<String, Integer> getRankingVictorias();
 }

@@ -1,10 +1,10 @@
 package xndr.hexaludic.hexaludic.service;
 
-import xndr.hexaludic.hexaludic.dao.DaoPartidas;
 import xndr.hexaludic.hexaludic.dao.DaoPartidasImpl;
 import xndr.hexaludic.hexaludic.domain.Partida;
 
 import java.util.List;
+import java.util.Map;
 
 public class ServicioPartidasImpl implements ServicioPartidas {
 
@@ -61,5 +61,10 @@ public class ServicioPartidasImpl implements ServicioPartidas {
     @Override
     public void guardarGuardado(String jugador) {
         daoPartidas.guardarGuardado(jugador);
+    }
+
+    @Override
+    public Map<String, Integer> getRankingVictorias() {
+        return daoPartidas.getRankingVictorias();
     }
 }

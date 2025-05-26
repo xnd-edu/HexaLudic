@@ -6,6 +6,7 @@ import xndr.hexaludic.hexaludic.service.ServicioPartidasImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -41,7 +42,13 @@ public class Tester {
                 ejecutarPartida(jugador1, jugador2);
                 break;
             case 2:
-                mostrarTop();
+                int posicion = 1;
+                Map<String, Integer> ranking = servicioPartidas.getRankingVictorias();
+                for (Map.Entry<String, Integer> entry : ranking.entrySet()) {
+                    String jugador = entry.getKey();
+                    int victorias = entry.getValue();
+                    System.out.printf("%d. %s: %d victoria(s)%n", posicion++, jugador, victorias);
+                }
                 break;
             case 3:
                 System.out.println("Saliendo...");

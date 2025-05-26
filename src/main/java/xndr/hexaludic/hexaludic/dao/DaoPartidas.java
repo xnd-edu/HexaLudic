@@ -4,6 +4,7 @@ import xndr.hexaludic.hexaludic.domain.Partida;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface DaoPartidas {
     List<Partida> getListaPartidas();
@@ -15,4 +16,5 @@ public interface DaoPartidas {
     void setPartidas(List<Partida> partidas);
     List<Partida> cargarGuardado(String jugador);
     boolean guardarGuardado(String jugador);
+    Map<String, Integer> getRankingVictorias();
 }
