@@ -1,6 +1,7 @@
 package xndr.hexaludic.hexaludic.ui;
 
 import io.github.palexdev.materialfx.controls.*;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import xndr.hexaludic.hexaludic.common.Config;
 import xndr.hexaludic.hexaludic.common.GuardadoNoEncontradoException;
@@ -292,7 +293,8 @@ public class EditorController implements Initializable {
 
     @FXML
     private void salir() {
-
+        if (alertaConfirmationSalir())
+            Platform.exit();
     }
 
 
