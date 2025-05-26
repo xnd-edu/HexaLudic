@@ -58,6 +58,7 @@ public class AdminController implements Initializable {
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) passwordField.getScene().getWindow();
+                stage.setTitle("HexaLudic");
                 stage.setScene(scene);
                 stage.show();
 
@@ -75,43 +76,4 @@ public class AdminController implements Initializable {
         errorLabel.setVisible(false);
     }
 
-    @FXML
-    protected void handleGuardados() {
-        mostrarArchivos(new Config().loadPathProperties());
-    }
-
-    @FXML
-    protected void handleTableroOca() {
-        mostrarArchivos(new Config().loadGamePathProperties());
-    }
-
-    private void mostrarArchivos(String path) {
-        File dir = new File(path);
-        File[] archivos = dir.listFiles(File::isFile);
-
-        if (archivos == null || archivos.length == 0) {
-            contentPane.getChildren().setAll(new Label("No hay archivos disponibles."));
-            return;
-        }
-
-        ComboBox<File> comboBox = new ComboBox<>();
-        comboBox.getItems().addAll(archivos);
-        comboBox.setPromptText("Selecciona un archivo");
-
-        Button editarButton = new Button("Editar");
-        editarButton.setOnAction(e -> {
-            File seleccionado = comboBox.getValue();
-            if (seleccionado != null) {
-                editarArchivo(seleccionado);
-            }
-        });
-
-        VBox layout = new VBox(10, comboBox, editarButton);
-        contentPane.getChildren().setAll(layout);
-    }
-
-
-    private void editarArchivo(File seleccion) {
-
-    }
 }

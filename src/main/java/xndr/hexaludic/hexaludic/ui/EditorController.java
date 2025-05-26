@@ -300,7 +300,7 @@ public class EditorController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText("Error al añadir el partida");
-        alert.setContentText("No se ha podido añadir el partida");
+        alert.setContentText("No se ha podido añadir la partida");
         alert.show();
     }
 
@@ -323,8 +323,8 @@ public class EditorController implements Initializable {
 
 private void alertaOKAddPartida() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Partida añadido correctamente");
-        alert.setHeaderText("Partida añadido correctamente");
+        alert.setTitle("Éxito");
+        alert.setHeaderText("Partida añadida correctamente");
         alert.setContentText("Se ha añadido correctamente");
         alert.show();
 
@@ -332,8 +332,8 @@ private void alertaOKAddPartida() {
 
     private void alertaOKUpdatePartida() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Partida actualizado con éxito");
-        alert.setHeaderText("Partida actualizado con éxito");
+        alert.setTitle("Éxito");
+        alert.setHeaderText("Partida actualizada con éxito");
         alert.setContentText("Se ha actualizado correctamente");
         alert.show();
     }
@@ -350,7 +350,7 @@ private void alertaOKAddPartida() {
     private boolean alertaConfirmationDeletePartida(Partida partida) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Diálogo de Confirmación");
-        alert.setHeaderText("Diálogo confirmación");
+        alert.setHeaderText("Eliminar partida");
         alert.setContentText("Confirma el borrado de " + partida + "?");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -364,7 +364,7 @@ private void alertaOKAddPartida() {
     private boolean alertaConfirmationVaciarPartidas() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Diálogo de Confirmación");
-        alert.setHeaderText("Diálogo confirmación");
+        alert.setHeaderText("Vaciar partidas");
         alert.setContentText("¿Está seguro de que desea borrar todas las partidas?");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -374,8 +374,18 @@ private void alertaOKAddPartida() {
     private boolean alertaConfirmationGuardar() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Diálogo de Confirmación");
-        alert.setHeaderText("Diálogo confirmación");
+        alert.setHeaderText("Guardar los cambios");
         alert.setContentText("¿Desea guardar los cambios?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
+    private boolean alertaConfirmationSalir() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Diálogo de Confirmación");
+        alert.setHeaderText("Salir");
+        alert.setContentText("¿Desea salir de la aplicación? Se perderán los cambios no guardados.");
 
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
@@ -383,7 +393,7 @@ private void alertaOKAddPartida() {
 
     private void alertaOkDeletePartida() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Partida eliminada con éxito");
+        alert.setTitle("Éxito");
         alert.setHeaderText("Partida eliminada con éxito");
         alert.setContentText("Se ha eliminado correctamente");
         alert.show();
