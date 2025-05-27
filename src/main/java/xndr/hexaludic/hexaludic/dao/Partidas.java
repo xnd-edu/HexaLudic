@@ -21,6 +21,7 @@ public class Partidas {
 
         listaPartidas.add(new Partida(1, "Oca", true, "Arthur", LocalDateTime.now()));
         listaPartidas.add(new Partida(2, "Yahtzee", false, "Pepe", LocalDateTime.now()));
+        listaPartidas.add(new Partida(3, "Oca", false, "Miguel", LocalDateTime.now()));
     }
 
     // Lombok no quiere trabajar

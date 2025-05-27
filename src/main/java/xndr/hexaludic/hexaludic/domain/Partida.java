@@ -20,4 +20,8 @@ public class Partida {
         this.jugador2 = jugador2;
         this.fechaPartida = fechaPartida;
     }
+
+    public String toStringTxt() {
+        return id + "," + juego + "," + victoria + "," + jugador2 + "," + fechaPartida + "\n";
+    }
 }

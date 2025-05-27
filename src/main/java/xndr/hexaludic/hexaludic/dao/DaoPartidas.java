@@ -17,4 +17,6 @@ public interface DaoPartidas {
     List<Partida> cargarGuardado(String jugador);
     boolean guardarGuardado(String jugador);
     Map<String, Integer> getRankingVictorias();
+    List<Partida> cargarGuardadoTxt(String jugador);
+    boolean guardarGuardadoTxt(String jugador);
 }

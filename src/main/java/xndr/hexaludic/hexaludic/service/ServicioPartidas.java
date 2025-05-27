@@ -16,4 +16,6 @@ public interface ServicioPartidas {
     List<Partida> cargarGuardado(String jugador);
     void guardarGuardado(String jugador);
     Map<String, Integer> getRankingVictorias();
+    List<Partida> cargarGuardadotxt(String jugador);
+    boolean guardarGuardadoTxt(String jugador);
 }

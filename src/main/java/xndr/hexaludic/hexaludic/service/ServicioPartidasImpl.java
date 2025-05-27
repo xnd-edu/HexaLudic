@@ -67,4 +67,14 @@ public class ServicioPartidasImpl implements ServicioPartidas {
     public Map<String, Integer> getRankingVictorias() {
         return daoPartidas.getRankingVictorias();
     }
+
+    @Override
+    public List<Partida> cargarGuardadotxt(String jugador) {
+        return daoPartidas.cargarGuardadoTxt(jugador);
+    }
+
+    @Override
+    public boolean guardarGuardadoTxt(String jugador) {
+        return daoPartidas.guardarGuardadoTxt(jugador);
+    }
 }

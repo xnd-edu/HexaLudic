@@ -121,4 +121,18 @@ public class DaoPartidasImpl implements DaoPartidas {
                 );
     }
 
+    @Override
+    public List<Partida> cargarGuardadoTxt(String jugador) {
+        Guardados guardados = new Guardados();
+        List<Partida> partidas = guardados.loadPartidasTxt(jugador);
+        setPartidas(partidas);
+        log.info("Partidas de " + jugador + " cargadas de fichero de texto: " + partidas);
+        return partidas;
+    }
+
+    @Override
+    public boolean guardarGuardadoTxt(String jugador) {
+        Guardados guardados = new Guardados();
+        return guardados.savePartidasTxt(getListaPartidas(), jugador);
+    }
 }

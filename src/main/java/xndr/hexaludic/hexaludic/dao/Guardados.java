@@ -10,6 +10,7 @@ import xndr.hexaludic.hexaludic.domain.Partida;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class Guardados {
         Gson gson = GsonFactory.create();
         System.out.println(gson.toJson(partidas));
 
-        File file = new File(new Config().loadPathProperties() + jugador + ".json");
+        File file = new File(path);
         file.getParentFile().mkdirs();
         try (FileWriter fw = new FileWriter(file)) {
             gson.toJson(partidas, fw);
@@ -89,6 +90,54 @@ public class Guardados {
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(tableroOca);
+            return true;
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    public List<Partida> loadPartidasTxt(String jugador) {
+        String path = new Config().loadPathProperties() + jugador + ".txt";
+        log.info("Leyendo guardado de " + jugador + ": " + path);
+        List<Partida> partidas = new ArrayList<>();
+
+        File file = new File(path);
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                // Formato esperado: id,juego,victoria,jugador2,fechaPartida
+                String[] partes = linea.split(",");
+                if (partes.length == 5) {
+                    int id = Integer.parseInt(partes[0]);
+                    String juego = partes[1];
+                    boolean victoria = Boolean.parseBoolean(partes[2]);
+                    String jugador2 = partes[3];
+                    LocalDateTime fecha = LocalDateTime.parse(partes[4]);
+
+                    partidas.add(new Partida(id, juego, victoria, jugador2, fecha));
+                } else {
+                    log.warn("Línea mal esrcita: " + linea);
+                }
+            }
+        } catch (IOException e) {
+            log.error("Error leyendo archivo de partidas de " + jugador, e);
+        }
+
+        log.info("Partidas cargadas de fichero de texto: " + partidas.size());
+        return partidas;
+    }
+
+    public boolean savePartidasTxt(List<Partida> listaPartidas, String jugador) {
+        String path = new Config().loadPathProperties() + jugador + ".txt";
+        File file = new File(path);
+        file.getParentFile().mkdirs();
+        log.info("Guardando partidas en " + path + "...");
+
+        try (FileWriter fw = new FileWriter(file)) {
+            for (Partida partida : listaPartidas) {
+                fw.write(partida.toStringTxt());
+            }
             return true;
         } catch (IOException e) {
             log.error(e.getMessage(), e);
