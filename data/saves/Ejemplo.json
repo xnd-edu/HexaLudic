@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "juego": "Oca",
+    "fechaPartida": "23::05::2025 01::23::19",
+    "victoria": true,
+    "jugador2": "Arthur"
+  },
+  {
+    "id": 2,
+    "juego": "Yahtzee",
+    "fechaPartida": "23::05::2025 01::23::19",
+    "victoria": false,
+    "jugador2": "Pepe"
+  }
+]
